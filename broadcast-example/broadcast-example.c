@@ -37,6 +37,7 @@
  */
 #include "contiki.h"
 #include "net/rime/rime.h"
+
 #include "random.h"
 #include "dev/button-sensor.h"
 #include "dev/leds.h"
@@ -51,6 +52,10 @@ AUTOSTART_PROCESSES(&example_broadcast_process);
  * Define callbacks function
  * Called when a packet has been received by the broadcast module
  */
+
+float neighbors_ids[4] = {0};
+int neighbors_id[4][2] = {0};
+
 static void
 broadcast_recv(struct broadcast_conn *c, const linkaddr_t *from) {
     /* 
@@ -60,6 +65,22 @@ broadcast_recv(struct broadcast_conn *c, const linkaddr_t *from) {
      */
     printf("broadcast message received from %d.%d: '%s'\n", 
            from->u8[0], from->u8[1], (char *)packetbuf_dataptr());
+    add_neighbor(from->u8[0],from->u8[1]);
+}
+
+void add_neighbor(int addr1, int addr2){
+	int n=0;
+	for (n=0,n<5,++n){
+		if ((neighbors_id[n][0]==addr1)&&(neighbors_id[n][1]==addr2)){
+			printf("neighbor already known\n");
+			break;
+		} else if ((neighbors_id[n][0]==0)&&(neighbors_id[n][1]==0)){
+			neighbors_id[n][0]==addr1;
+			neighbors_id[n][1]==addr2;
+			printf("added neighbor: %d.%d\n",addr1,addr2);
+                        break;
+		}
+	}
 }
 
 static const struct broadcast_callbacks broadcast_cb = {broadcast_recv};
