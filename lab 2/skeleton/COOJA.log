@@ -1,0 +1,10 @@
+[13:36:34 - main] [Cooja.java:3181] [WARN] - JAVA_HOME environment variable not set, Cooja motes may not compile
+[13:36:34 - AWT-EventQueue-0] [Cooja.java:2865] [INFO] - External tools default settings: /external_tools_linux_64.config
+[13:36:34 - AWT-EventQueue-0] [Cooja.java:2897] [WARN] - Error when reading user settings from: /home/tkn/.cooja.user.properties
+[13:36:45 - AWT-EventQueue-0] [Cooja.java:2324] [INFO] - Load command cancelled by user...
+[13:36:49 - AWT-EventQueue-0] [Simulation.java:420] [INFO] - Simulation random seed: 123456
+[13:36:49 - AWT-EventQueue-0] [Visualizer.java:256] [INFO] - Registered external visualizer: org.contikios.cooja.plugins.skins.DGRMVisualizerSkin
+[13:37:30 - AWT-EventQueue-0] [Cooja.java:4146] [WARN] - Path is not portable: '/home/tkn/nes/lab 2/skeleton/protothreads.c
+[13:37:32 - AWT-EventQueue-0] [CompileContiki.java:140] [INFO] - > make protothreads.sky TARGET=sky 
+[13:37:40 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/lab 2/skeleton/protothreads.sky
+[13:37:56 - Thread-2] [Simulation.java:252] [INFO] - Simulation main loop started, system time: 1643805476972
