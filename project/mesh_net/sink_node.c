@@ -16,7 +16,7 @@ PROCESS(example_collect_process, "Test collect process");
 AUTOSTART_PROCESSES(&example_collect_process);
 /*---------------------------------------------------------------------------*/
 static void
-recv(const rimeaddr_t *originator, uint8_t seqno, uint8_t hops)
+recv(const linkaddr_t *originator, uint8_t seqno, uint8_t hops)
 {
   printf("Sink got message from %d.%d, seqno %d, hops %d: len %d '%s'\n",
          originator->u8[0], originator->u8[1],
