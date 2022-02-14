@@ -92,8 +92,9 @@ static struct announcement example_announcement;
  * This function is called at the final recepient of the message.
  */
 static void
-recv(struct multihop_conn *c, const linkaddr_t *sender,
-     const linkaddr_t *prevhop, uint8_t hops)
+recv(struct multihop_conn *c, const rimeaddr_t *sender,
+     const linkaddr_t *prevhop,
+     uint8_t hops)
 {
   printf("multihop message received '%s'\n", (char *)packetbuf_dataptr());
 }
