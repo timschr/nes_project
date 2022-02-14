@@ -144,13 +144,6 @@ PROCESS_THREAD(example_multihop_process, ev, data)
   PROCESS_EXITHANDLER(multihop_close(&multihop);)
     
   PROCESS_BEGIN();
-  
-  if (linkaddr_node_addr.u8[0] == 1){
-    sink_hops = 0;
-  } else {
-   printf("I'm node %d.%d", linkaddr_node_addr.u8[0], linkaddr_node_addr.u8[1]);
-  }
-  
 
   /* Initialize the memory for the neighbor table entries. */
   memb_init(&neighbor_mem);
@@ -167,6 +160,9 @@ PROCESS_THREAD(example_multihop_process, ev, data)
                         CHANNEL,
                         received_announcement);
 
+  /* Set a dummy value to start sending out announcments. */
+  announcement_set_value(&example_announcement, 0);
+
   /* Activate the button sensor. We use the button to drive traffic -
      when the button is pressed, a packet is sent. */
   SENSORS_ACTIVATE(button_sensor);
@@ -178,13 +174,9 @@ PROCESS_THREAD(example_multihop_process, ev, data)
     /* Wait until we get a sensor event with the button sensor as data. */
     PROCESS_WAIT_EVENT_UNTIL(ev == sensors_event &&
                              data == &button_sensor);
-  
-    /* Set a dummy value to start sending out announcments. */
-    announcement_set_value(&example_announcement, sink_hops);
-    char buffer[32];   // Use an array which is large enough 
-    snprintf(buffer, sizeof(buffer), "Emergency at %d.%d", linkaddr_node_addr.u8[0], linkaddr_node_addr.u8[1]);
+
     /* Copy the "Hello" to the packet buffer. */
-    packetbuf_copyfrom(buffer, sizeof(buffer));
+    packetbuf_copyfrom("Hello", 6);
 
     /* Set the Rime address of the final receiver of the packet to
        1.0. This is a value that happens to work nicely in a Cooja
@@ -195,6 +187,7 @@ PROCESS_THREAD(example_multihop_process, ev, data)
 
     /* Send the packet. */
     multihop_send(&multihop, &to);
+
   }
 
   PROCESS_END();
