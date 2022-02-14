@@ -95,7 +95,7 @@ static struct announcement example_announcement;
 static void
 recv(struct multihop_conn *c, const linkaddr_t *sender,
      const linkaddr_t *prevhop,
-     uint8_t hops)
+     uint16_t hops)
 {
   printf("multihop message received '%s'\n", (char *)packetbuf_dataptr());
 }
@@ -109,7 +109,7 @@ recv(struct multihop_conn *c, const linkaddr_t *sender,
 static linkaddr_t *
 forward(struct multihop_conn *c,
         const linkaddr_t *originator, const linkaddr_t *dest,
-        const linkaddr_t *prevhop, uint8_t sink_hops)
+        const linkaddr_t *prevhop, uint16_t sink_hops)
 {
   /* Find a random neighbor to send to. */
   int num, i;
