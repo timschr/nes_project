@@ -14,7 +14,7 @@
 struct example_neighbor {
   struct example_neighbor *next;
   linkaddr_t addr;
-  uint16_t num_hops;
+  uint8_t num_hops;
   struct ctimer ctimer;
 };
 
