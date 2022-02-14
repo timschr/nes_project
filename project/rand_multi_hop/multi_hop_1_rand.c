@@ -14,8 +14,12 @@
 struct example_neighbor {
   struct example_neighbor *next;
   linkaddr_t addr;
+  uint16_t num_hops = NULL;
   struct ctimer ctimer;
 };
+
+
+static uint16_t sink_hops = NULL;
 
 #define NEIGHBOR_TIMEOUT 60 * CLOCK_SECOND
 #define MAX_NEIGHBORS 16
@@ -38,6 +42,7 @@ remove_neighbor(void *n)
   list_remove(neighbor_table, e);
   memb_free(&neighbor_mem, e);
 }
+
 /*---------------------------------------------------------------------------*/
 /*
  * This function is called when an incoming announcement arrives. The
@@ -73,6 +78,12 @@ received_announcement(struct announcement *a,
   if(e != NULL) {
     linkaddr_copy(&e->addr, from);
     list_add(neighbor_table, e);
+    if(e->num_hops != NULL){
+      e->num_hops = value; 
+      if (e->num_hops < (sink_hops - 1)) {
+        sink_hops = e->num_hops + 1;
+        printf("Updated #Hops to sinks %d\n", sink_hops);
+      }
     ctimer_set(&e->ctimer, NEIGHBOR_TIMEOUT, remove_neighbor, e);
   }
 }
@@ -147,7 +158,7 @@ PROCESS_THREAD(example_multihop_process, ev, data)
                         received_announcement);
 
   /* Set a dummy value to start sending out announcments. */
-  announcement_set_value(&example_announcement, 0);
+  announcement_set_value(&example_announcement, sink_hops);
 
   /* Activate the button sensor. We use the button to drive traffic -
      when the button is pressed, a packet is sent. */
