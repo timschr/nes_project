@@ -14,11 +14,8 @@
 struct example_neighbor {
   struct example_neighbor *next;
   linkaddr_t addr;
-  uint8_t num_hops;
   struct ctimer ctimer;
 };
-
-static uint16_t sink_hops = NULL;
 
 #define NEIGHBOR_TIMEOUT 60 * CLOCK_SECOND
 #define MAX_NEIGHBORS 16
@@ -41,7 +38,6 @@ remove_neighbor(void *n)
   list_remove(neighbor_table, e);
   memb_free(&neighbor_mem, e);
 }
-
 /*---------------------------------------------------------------------------*/
 /*
  * This function is called when an incoming announcement arrives. The
@@ -53,7 +49,7 @@ remove_neighbor(void *n)
 static void
 received_announcement(struct announcement *a,
                       const linkaddr_t *from,
-                      uint16_t id, uint16_t n_sink_hops)
+                      uint16_t id, uint16_t value)
 {
   struct example_neighbor *e;
 
@@ -77,12 +73,6 @@ received_announcement(struct announcement *a,
   if(e != NULL) {
     linkaddr_copy(&e->addr, from);
     list_add(neighbor_table, e);
-    if(&e->num_hops != NULL){
-      e->num_hops = n_sink_hops; 
-      if (e->num_hops < (sink_hops - 1)) {
-        sink_hops = e->num_hops + 1;
-        printf("Updated #Hops to sinks %d\n", sink_hops);
-      }
     ctimer_set(&e->ctimer, NEIGHBOR_TIMEOUT, remove_neighbor, e);
   }
 }
@@ -92,7 +82,7 @@ static struct announcement example_announcement;
  * This function is called at the final recepient of the message.
  */
 static void
-recv(struct multihop_conn *c, const rimeaddr_t *sender,
+recv(struct multihop_conn *c, const linkaddr_t *sender,
      const linkaddr_t *prevhop,
      uint8_t hops)
 {
@@ -108,7 +98,7 @@ recv(struct multihop_conn *c, const rimeaddr_t *sender,
 static linkaddr_t *
 forward(struct multihop_conn *c,
         const linkaddr_t *originator, const linkaddr_t *dest,
-        const linkaddr_t *prevhop, uint8_t sink_hops)
+        const linkaddr_t *prevhop, uint8_t hops)
 {
   /* Find a random neighbor to send to. */
   int num, i;
@@ -140,13 +130,6 @@ PROCESS_THREAD(example_multihop_process, ev, data)
   PROCESS_EXITHANDLER(multihop_close(&multihop);)
     
   PROCESS_BEGIN();
-  
-  if (linkaddr_node_addr.u8[0] == 1){
-    sink_hops = 0;
-  } else {
-   printf("I'm node %d.%d", linkaddr_node_addr.u8[0], linkaddr_node_addr.u8[1]);
-  }
-  
 
   /* Initialize the memory for the neighbor table entries. */
   memb_init(&neighbor_mem);
@@ -163,6 +146,9 @@ PROCESS_THREAD(example_multihop_process, ev, data)
                         CHANNEL,
                         received_announcement);
 
+  /* Set a dummy value to start sending out announcments. */
+  announcement_set_value(&example_announcement, 0);
+
   /* Activate the button sensor. We use the button to drive traffic -
      when the button is pressed, a packet is sent. */
   SENSORS_ACTIVATE(button_sensor);
@@ -174,13 +160,9 @@ PROCESS_THREAD(example_multihop_process, ev, data)
     /* Wait until we get a sensor event with the button sensor as data. */
     PROCESS_WAIT_EVENT_UNTIL(ev == sensors_event &&
                              data == &button_sensor);
-  
-    /* Set a dummy value to start sending out announcments. */
-    announcement_set_value(&example_announcement, sink_hops);
-    char buffer[32];   // Use an array which is large enough 
-    snprintf(buffer, sizeof(buffer), "Emergency at %d.%d", linkaddr_node_addr.u8[0], linkaddr_node_addr.u8[1]);
+
     /* Copy the "Hello" to the packet buffer. */
-    packetbuf_copyfrom(buffer, sizeof(buffer));
+    packetbuf_copyfrom("Hello", 6);
 
     /* Set the Rime address of the final receiver of the packet to
        1.0. This is a value that happens to work nicely in a Cooja
@@ -191,8 +173,8 @@ PROCESS_THREAD(example_multihop_process, ev, data)
 
     /* Send the packet. */
     multihop_send(&multihop, &to);
+
   }
 
   PROCESS_END();
 }
-/*---------------------------------------------------------------------------*/
