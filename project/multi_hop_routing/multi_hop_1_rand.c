@@ -18,7 +18,7 @@ struct example_neighbor {
   struct ctimer ctimer;
 };
 
-static uint16_t sink_hops = NULL;
+static uint8_t sink_hops;
 
 #define NEIGHBOR_TIMEOUT 60 * CLOCK_SECOND
 #define MAX_NEIGHBORS 16
@@ -66,6 +66,10 @@ received_announcement(struct announcement *a,
     if(linkaddr_cmp(from, &e->addr)) {
       /* Our neighbor was found, so we update the timeout. */
       ctimer_set(&e->ctimer, NEIGHBOR_TIMEOUT, remove_neighbor, e);
+      if (e->num_hops < (sink_hops - 1)) {
+        sink_hops = e->num_hops + 1;
+        printf("Updated #Hops to sinks %d\n", sink_hops);
+      }
       return;
     }
   }
