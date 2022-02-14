@@ -36,8 +36,8 @@ PROCESS_THREAD(example_collect_process, ev, data)
 
   collect_open(&tc, 130, COLLECT_ROUTER, &callbacks);
 
-  if(rimeaddr_node_addr.u8[0] == 1 &&
-     rimeaddr_node_addr.u8[1] == 0) {
+  if(linkaddr_node_addr.u8[0] == 1 &&
+     linkaddr_node_addr.u8[1] == 0) {
         printf("I am sink\n");
         collect_set_sink(&tc, 1);
   }
@@ -68,14 +68,14 @@ PROCESS_THREAD(example_collect_process, ev, data)
       collect_send(&tc, 15);
 
       parent = collect_parent(&tc);
-      if(!rimeaddr_cmp(parent, &oldparent)) {
-        if(!rimeaddr_cmp(&oldparent, &rimeaddr_null)) {
+      if(!linkaddr_cmp(parent, &oldparent)) {
+        if(!linkaddr_cmp(&oldparent, &linkaddr_null)) {
           printf("#L %d 0\n", oldparent.u8[0]);
         }
-        if(!rimeaddr_cmp(parent, &rimeaddr_null)) {
+        if(!linkaddr_cmp(parent, &linkaddr_null)) {
           printf("#L %d 1\n", parent->u8[0]);
         }
-        rimeaddr_copy(&oldparent, parent);
+        linkaddr_copy(&oldparent, parent);
       }
     }
 
