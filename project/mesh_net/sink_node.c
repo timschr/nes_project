@@ -58,8 +58,8 @@ PROCESS_THREAD(example_collect_process, ev, data)
 
 
     if(etimer_expired(&et)) {
-      static rimeaddr_t oldparent;
-      const rimeaddr_t *parent;
+      static linkaddr_t oldparent;
+      const linkaddr_t *parent;
 
       printf("Sending\n");
       packetbuf_clear();
