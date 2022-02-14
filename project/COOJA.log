@@ -1,13 +1,92 @@
-[11:21:15 - main] [Cooja.java:3181] [WARN] - JAVA_HOME environment variable not set, Cooja motes may not compile
-[11:21:15 - AWT-EventQueue-0] [Cooja.java:2865] [INFO] - External tools default settings: /external_tools_linux_64.config
-[11:21:15 - AWT-EventQueue-0] [Cooja.java:2895] [INFO] - External tools user settings: /home/tkn/.cooja.user.properties
-[11:21:22 - AWT-EventQueue-0] [Simulation.java:420] [INFO] - Simulation random seed: 123456
-[11:21:22 - AWT-EventQueue-0] [Visualizer.java:256] [INFO] - Registered external visualizer: org.contikios.cooja.plugins.skins.DGRMVisualizerSkin
-[11:21:51 - AWT-EventQueue-0] [Cooja.java:4146] [WARN] - Path is not portable: '/home/tkn/nes/project/tx_node.c
-[11:21:53 - AWT-EventQueue-0] [CompileContiki.java:140] [INFO] - > make tx_node.sky TARGET=sky 
-[11:22:08 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/tx_node.sky
-[11:22:08 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/tx_node.sky
-[11:22:18 - Thread-1] [Simulation.java:252] [INFO] - Simulation main loop started, system time: 1644402138780
-[11:23:35 - Thread-1] [Simulation.java:311] [INFO] - Simulation main loop stopped, system time: 1644402215987	Duration: 77207 ms	Simulated time 2384885 ms	Ratio 30.889491885450802
-[13:11:03 - Thread-2] [Simulation.java:252] [INFO] - Simulation main loop started, system time: 1644581463204
-[13:11:38 - Thread-2] [Simulation.java:311] [INFO] - Simulation main loop stopped, system time: 1644581498346	Duration: 35142 ms	Simulated time 3240472 ms	Ratio 92.21080188947698
+[10:59:09 - main] [Cooja.java:3181] [WARN] - JAVA_HOME environment variable not set, Cooja motes may not compile
+[10:59:10 - AWT-EventQueue-0] [Cooja.java:2865] [INFO] - External tools default settings: /external_tools_linux_64.config
+[10:59:10 - AWT-EventQueue-0] [Cooja.java:2895] [INFO] - External tools user settings: /home/tkn/.cooja.user.properties
+[10:59:16 - AWT-EventQueue-0] [Simulation.java:420] [INFO] - Simulation random seed: 123456
+[10:59:16 - AWT-EventQueue-0] [Visualizer.java:256] [INFO] - Registered external visualizer: org.contikios.cooja.plugins.skins.DGRMVisualizerSkin
+[10:59:37 - AWT-EventQueue-0] [Cooja.java:4146] [WARN] - Path is not portable: '/home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.c
+[10:59:38 - AWT-EventQueue-0] [CompileContiki.java:140] [INFO] - > make multi_hop_1_rand.sky TARGET=sky 
+[10:59:42 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[10:59:43 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[10:59:43 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[10:59:43 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[10:59:43 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[10:59:43 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[10:59:43 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[10:59:43 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[10:59:43 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[10:59:43 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[10:59:43 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[10:59:43 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[10:59:43 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[10:59:43 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[10:59:43 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[10:59:43 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[10:59:43 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[10:59:43 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[10:59:43 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[10:59:43 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:00:04 - Thread-1] [Simulation.java:252] [INFO] - Simulation main loop started, system time: 1644832804233
+[11:01:11 - Thread-1] [Simulation.java:311] [INFO] - Simulation main loop stopped, system time: 1644832871235	Duration: 67002 ms	Simulated time 6645 ms	Ratio 0.09917614399570163
+[11:01:13 - Thread-2] [Simulation.java:252] [INFO] - Simulation main loop started, system time: 1644832873515
+[11:01:13 - Thread-2] [Simulation.java:311] [INFO] - Simulation main loop stopped, system time: 1644832873526	Duration: 11 ms	Simulated time 6646 ms	Ratio 604.1818181818181
+[11:01:14 - Thread-3] [Simulation.java:252] [INFO] - Simulation main loop started, system time: 1644832874503
+[11:01:14 - Thread-3] [Simulation.java:311] [INFO] - Simulation main loop stopped, system time: 1644832874515	Duration: 12 ms	Simulated time 6647 ms	Ratio 553.9166666666666
+[11:01:20 - Thread-4] [Cooja.java:4146] [WARN] - Path is not portable: '/home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.c
+[11:01:20 - Thread-4] [Cooja.java:4146] [WARN] - Path is not portable: '/home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:20 - Thread-4] [Simulation.java:420] [INFO] - Simulation random seed: 123456
+[11:01:20 - Thread-4] [CompileContiki.java:140] [INFO] - > make multi_hop_1_rand.sky TARGET=sky 
+[11:01:20 - Thread-4] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:20 - Thread-4] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:20 - Thread-4] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:20 - Thread-4] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:20 - Thread-4] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:21 - Thread-4] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:21 - Thread-4] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:21 - Thread-4] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:21 - Thread-4] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:21 - Thread-4] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:21 - Thread-4] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:21 - Thread-4] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:21 - Thread-4] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:21 - Thread-4] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:21 - Thread-4] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:21 - Thread-4] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:21 - Thread-4] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:21 - Thread-4] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:21 - Thread-4] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:21 - Thread-4] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:01:21 - Thread-4] [TimeLine.java:567] [INFO] - Zoom level: 500.0 microseconds/pixel 
+[11:01:25 - Thread-5] [Simulation.java:252] [INFO] - Simulation main loop started, system time: 1644832885886
+[11:03:10 - Thread-5] [Simulation.java:311] [INFO] - Simulation main loop stopped, system time: 1644832990444	Duration: 104558 ms	Simulated time 42349 ms	Ratio 0.40502878784980584
+[11:03:18 - Thread-6] [Cooja.java:4146] [WARN] - Path is not portable: '/home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.c
+[11:03:18 - Thread-6] [Cooja.java:4146] [WARN] - Path is not portable: '/home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:18 - Thread-6] [Simulation.java:420] [INFO] - Simulation random seed: 123456
+[11:03:18 - Thread-6] [CompileContiki.java:140] [INFO] - > make multi_hop_1_rand.sky TARGET=sky 
+[11:03:18 - Thread-6] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:19 - Thread-6] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:19 - Thread-6] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:19 - Thread-6] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:19 - Thread-6] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:19 - Thread-6] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:19 - Thread-6] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:19 - Thread-6] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:19 - Thread-6] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:19 - Thread-6] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:19 - Thread-6] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:19 - Thread-6] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:19 - Thread-6] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:19 - Thread-6] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:19 - Thread-6] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:19 - Thread-6] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:19 - Thread-6] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:19 - Thread-6] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:19 - Thread-6] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:19 - Thread-6] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:19 - Thread-6] [TimeLine.java:567] [INFO] - Zoom level: 500.0 microseconds/pixel 
+[11:03:31 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:31 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:31 - AWT-EventQueue-0] [MspMote.java:235] [INFO] - Loading firmware from: /home/tkn/nes/project/rand_multi_hop/multi_hop_1_rand.sky
+[11:03:55 - Thread-7] [Simulation.java:252] [INFO] - Simulation main loop started, system time: 1644833035500
+[11:06:09 - Thread-7] [Simulation.java:311] [INFO] - Simulation main loop stopped, system time: 1644833169260	Duration: 133760 ms	Simulated time 13317 ms	Ratio 0.09955891148325359
+[11:06:11 - Thread-8] [Simulation.java:252] [INFO] - Simulation main loop started, system time: 1644833171044
+[11:06:11 - Thread-8] [Simulation.java:311] [INFO] - Simulation main loop stopped, system time: 1644833171746	Duration: 702 ms	Simulated time 13387 ms	Ratio 19.06980056980057
