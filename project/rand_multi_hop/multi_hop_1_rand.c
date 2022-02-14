@@ -18,7 +18,6 @@ struct example_neighbor {
   struct ctimer ctimer;
 };
 
-
 static uint16_t sink_hops = NULL;
 
 #define NEIGHBOR_TIMEOUT 60 * CLOCK_SECOND
@@ -78,7 +77,7 @@ received_announcement(struct announcement *a,
   if(e != NULL) {
     linkaddr_copy(&e->addr, from);
     list_add(neighbor_table, e);
-    if(e->num_hops != NULL){
+    if(&e->num_hops != NULL){
       e->num_hops = n_sink_hops; 
       if (e->num_hops < (sink_hops - 1)) {
         sink_hops = e->num_hops + 1;
@@ -94,8 +93,7 @@ static struct announcement example_announcement;
  */
 static void
 recv(struct multihop_conn *c, const linkaddr_t *sender,
-     const linkaddr_t *prevhop,
-     uint16_t hops)
+     const linkaddr_t *prevhop, uint8_t hops)
 {
   printf("multihop message received '%s'\n", (char *)packetbuf_dataptr());
 }
@@ -109,7 +107,7 @@ recv(struct multihop_conn *c, const linkaddr_t *sender,
 static linkaddr_t *
 forward(struct multihop_conn *c,
         const linkaddr_t *originator, const linkaddr_t *dest,
-        const linkaddr_t *prevhop, uint16_t sink_hops)
+        const linkaddr_t *prevhop, uint8_t sink_hops)
 {
   /* Find a random neighbor to send to. */
   int num, i;
