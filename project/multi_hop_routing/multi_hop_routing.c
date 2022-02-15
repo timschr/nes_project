@@ -19,6 +19,7 @@ struct example_neighbor {
 };
 
 static uint8_t sink_hops;
+static struct announcement example_announcement;
 
 #define NEIGHBOR_TIMEOUT 60 * CLOCK_SECOND
 #define MAX_NEIGHBORS 16
@@ -68,9 +69,9 @@ received_announcement(struct announcement *a,
       ctimer_set(&e->ctimer, NEIGHBOR_TIMEOUT, remove_neighbor, e);
       return;
     }
-    if (e->value < (sink_hops - 1)) {
-        sink_hops = e->value + 1;
-        announcement_set_value(&example_announcement, &&e->value);
+    if (e->num_hops < (value - 1)) {
+        sink_hops = e->num_hops + 1;
+        announcement_set_value(&example_announcement, &e->num_hops);
         printf("Updated #Hops to sinks %d\n", sink_hops);
     }
   }
@@ -85,7 +86,7 @@ received_announcement(struct announcement *a,
     ctimer_set(&e->ctimer, NEIGHBOR_TIMEOUT, remove_neighbor, e);
   }
 }
-static struct announcement example_announcement;
+
 /*---------------------------------------------------------------------------*/
 /*
  * This function is called at the final recepient of the message.
@@ -155,7 +156,7 @@ PROCESS_THREAD(example_multihop_process, ev, data)
                         CHANNEL,
                         received_announcement);
 
-  if (linkaddr_node_addr.u8[0] == 1) && (linkaddr_node_addr.u8[1] == 0){
+  if ((linkaddr_node_addr.u8[0] == 1) && (linkaddr_node_addr.u8[1] == 0)){
     announcement_set_value(&example_announcement, 0);
     printf("Sink sets announcment value to 0");
   } else {
