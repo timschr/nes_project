@@ -163,7 +163,7 @@ PROCESS_THREAD(example_multihop_process, ev, data)
     announcement_set_value(&example_announcement, 0);
     printf("Sink sets announcment value to 0\n");
   } else {
-    announcement_set_value(&example_announcement, 20);
+    announcement_set_value(&example_announcement, NULL);
   }
   
   /* Activate the button sensor. We use the button to drive traffic -
