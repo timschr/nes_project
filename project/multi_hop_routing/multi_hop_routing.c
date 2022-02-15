@@ -14,7 +14,7 @@
 struct example_neighbor {
   struct example_neighbor *next;
   linkaddr_t addr;
-  uint8_t num_hops;
+  uint8_t num_hops = 0;
   struct ctimer ctimer;
 };
 
@@ -68,13 +68,16 @@ received_announcement(struct announcement *a,
       /* Our neighbor was found, so we update the timeout. */
       ctimer_set(&e->ctimer, NEIGHBOR_TIMEOUT, remove_neighbor, e); 
       printf("sink_hops: %d, e->num_hops: %d, value: %d\n", sink_hops, e->num_hops, value);
-      if (sink_hops < (value - 1)) {
-        sink_hops = value + 1;
-        e->num_hops = value;
-        announcement_set_value(&example_announcement, &sink_hops);
-        printf("Updated #Hops to sinks %d\n", sink_hops);
+      if (value != 0) {
+        if (sink_hops < (value - 1)) {
+          sink_hops = value + 1;
+          e->num_hops = value;
+          announcement_set_value(&example_announcement, &sink_hops);
+          printf("Updated #Hops to sinks %d\n", sink_hops);
+        }
+      } else {
+          printf("Neighbor not initialized");
       }
-      
       return;
     }
   }
@@ -160,12 +163,12 @@ PROCESS_THREAD(example_multihop_process, ev, data)
                         received_announcement);
 
   if ((linkaddr_node_addr.u8[0] == 1) && (linkaddr_node_addr.u8[1] == 0)){
-    announcement_set_value(&example_announcement, 0);
-    sink_hops = 0;
+    announcement_set_value(&example_announcement, 1);
+    sink_hops = 1;
     printf("Sink sets announcment value to 0\n");
   } else {
-    announcement_set_value(&example_announcement, 20);
-    sink_hops = 20;
+    announcement_set_value(&example_announcement, 0);
+    sink_hops = 0;
   }
   
   /* Activate the button sensor. We use the button to drive traffic -
