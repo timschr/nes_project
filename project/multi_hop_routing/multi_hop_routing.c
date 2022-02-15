@@ -69,11 +69,14 @@ received_announcement(struct announcement *a,
       ctimer_set(&e->ctimer, NEIGHBOR_TIMEOUT, remove_neighbor, e);
       return;
     }
-    if (e->num_hops < (value - 1)) {
+    if (e->num_hops != 0) {
+      if (e->num_hops < (value - 1)) {
         sink_hops = e->num_hops + 1;
-        announcement_set_value(&example_announcement, &e->num_hops);
+        announcement_set_value(&example_announcement, e->num_hops);
         printf("Updated #Hops to sinks %d\n", sink_hops);
-    }
+      }
+    } else {
+      printf("Sink does not update announcement value!\n");
   }
 
   /* The neighbor was not found in the list, so we add a new entry by
@@ -158,9 +161,9 @@ PROCESS_THREAD(example_multihop_process, ev, data)
 
   if ((linkaddr_node_addr.u8[0] == 1) && (linkaddr_node_addr.u8[1] == 0)){
     announcement_set_value(&example_announcement, 0);
-    printf("Sink sets announcment value to 0");
+    printf("Sink sets announcment value to 0\n");
   } else {
-    announcement_set_value(&example_announcement, NULL);
+    announcement_set_value(&example_announcement, 20);
   }
   
   /* Activate the button sensor. We use the button to drive traffic -
