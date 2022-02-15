@@ -76,7 +76,7 @@ received_announcement(struct announcement *a,
           printf("Updated #Hops to sinks %d\n", sink_hops);
         }
       } else {
-          printf("Neighbor not initialized");
+          printf("Neighbor not initialized\n");
       }
       return;
     }
@@ -163,11 +163,11 @@ PROCESS_THREAD(example_multihop_process, ev, data)
                         received_announcement);
 
   if ((linkaddr_node_addr.u8[0] == 1) && (linkaddr_node_addr.u8[1] == 0)){
-    announcement_set_value(&example_announcement, 1);
+    announcement_set_value(&example_announcement, 1); // 1 - Sink
     sink_hops = 1;
     printf("Sink sets announcment value to 0\n");
   } else {
-    announcement_set_value(&example_announcement, 0);
+    announcement_set_value(&example_announcement, 0); // 0 - not initialize
     sink_hops = 0;
   }
   
