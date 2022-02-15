@@ -70,14 +70,14 @@ received_announcement(struct announcement *a,
       ctimer_set(&e->ctimer, NEIGHBOR_TIMEOUT, remove_neighbor, e); 
       printf("sink_hops: %d, e->num_hops: %d, value: %d\n", sink_hops, e->num_hops, value);
       if (value != NOT_INIT) {
-        if (sink_hops > (value - 1)) {
+        if (sink_hops + 1 > value || sink_hops == NOT_INIT) {
           sink_hops = value + 1;
           e->num_hops = value;
           announcement_set_value(&example_announcement, &sink_hops);
           printf("Updated #Hops to sinks %d\n", sink_hops);
         }
       } else {
-          printf("Neighbor doesn't know where sink is\n");
+          printf("Neighbor %d doesn't know where sink is\n", from->u8[0]);
       }
       return;
     }
@@ -89,7 +89,7 @@ received_announcement(struct announcement *a,
   e = memb_alloc(&neighbor_mem);
   if(e != NULL) {
     if (value != NOT_INIT) {
-        if (sink_hops > (value - 1)) {
+        if (sink_hops + 1 > value || sink_hops == NOT_INIT) {if (sink_hops + 1 > value || sink_hops == NOT_INIT) {
           sink_hops = value + 1;
           e->num_hops = value;
           announcement_set_value(&example_announcement, &sink_hops);
