@@ -68,13 +68,13 @@ received_announcement(struct announcement *a,
     if(linkaddr_cmp(from, &e->addr)) {
       /* Our neighbor was found, so we update the timeout. */
       ctimer_set(&e->ctimer, NEIGHBOR_TIMEOUT, remove_neighbor, e); 
-      printf("sink_hops: %d, e->num_hops: %d, value: %d\n", sink_hops, e->num_hops, value);
       if (value != NOT_INIT) {
-        if (sink_hops + 1 > value || sink_hops == NOT_INIT) {
+        if (sink_hops > value || sink_hops == NOT_INIT) {
           sink_hops = value + 1;
           e->num_hops = value;
-          announcement_set_value(&example_announcement, &sink_hops);
-          printf("Updated #Hops to sinks %d\n", sink_hops);
+          announcement_set_value(&example_announcement, sink_hops);
+          printf("Updated #Hops to sink %d\n", sink_hops);
+          printf("sink_hops: %d, e->num_hops: %d, value: %d\n", sink_hops, e->num_hops, value);
         }
       } else {
           printf("Neighbor %d doesn't know where sink is\n", from->u8[0]);
@@ -89,15 +89,16 @@ received_announcement(struct announcement *a,
   e = memb_alloc(&neighbor_mem);
   if(e != NULL) {
     if (value != NOT_INIT) {
-        if (sink_hops + 1 > value || sink_hops == NOT_INIT) {
+        if (sink_hops > value || sink_hops == NOT_INIT) {
           sink_hops = value + 1;
-          e->num_hops = value;
-          announcement_set_value(&example_announcement, &sink_hops);
+          announcement_set_value(&example_announcement, sink_hops);
           printf("Updated #Hops to sinks %d\n", sink_hops);
         }
     } else {
-        printf("Neighbor not known yet, but doesn't know where sink is\n");
+        printf("Neighbor %d not known yet, but doesn't know where sink is\n", from->u8[0]);
     }
+    
+    e->num_hops = value;
     linkaddr_copy(&e->addr, from);
     list_add(neighbor_table, e);
     ctimer_set(&e->ctimer, NEIGHBOR_TIMEOUT, remove_neighbor, e);
@@ -127,28 +128,30 @@ forward(struct multihop_conn *c,
         const linkaddr_t *originator, const linkaddr_t *dest,
         const linkaddr_t *prevhop, uint8_t hops)
 {
-  /* Find a random neighbor to send to. */
-  int num, i;
-  struct example_neighbor *n;
-
-  if(list_length(neighbor_table) > 0) {
-    num = random_rand() % list_length(neighbor_table);
-    i = 0;
-    for(n = list_head(neighbor_table); n != NULL && i != num; n = n->next) {
-      ++i;
-    }
-    if(n != NULL) {
-      printf("%d.%d: Forwarding packet to %d.%d (%d in list), hops %d\n",
-             linkaddr_node_addr.u8[0], linkaddr_node_addr.u8[1],
-             n->addr.u8[0], n->addr.u8[1], num,
-             packetbuf_attr(PACKETBUF_ATTR_HOPS));
-      return &n->addr;
+  // Find the closest neighbor to the sink
+  struct example_neighbor *i, *closest;
+  printf("Looking for a shortest path: %d.\n", sink_hops);
+  for(i = list_head(neighbor_table), closest = i; i != NULL; i = i->next) {
+    printf("Iterating through neighbour %d, distance to sink: %d, current shortest distance: %d\n", i->addr.u8[0], i->num_hops, closest->num_hops);
+    if (closest->num_hops > i->num_hops) {
+      printf("Path is shorter. Overriding closest.\n");
+      closest = i;
     }
   }
-  printf("%d.%d: did not find a neighbor to foward to\n",
+
+  if (closest != NULL) {
+    printf("%d.%d: Forwarding packet to %d.%d (%d in list), hops %d\n",
+             linkaddr_node_addr.u8[0], linkaddr_node_addr.u8[1],
+             closest->addr.u8[0], closest->addr.u8[1], closest->num_hops,
+             packetbuf_attr(PACKETBUF_ATTR_HOPS));
+    return &closest->addr;
+  }
+
+  printf("%d.%d: did not find a neighbor to forward to\n",
          linkaddr_node_addr.u8[0], linkaddr_node_addr.u8[1]);
   return NULL;
 }
+
 static const struct multihop_callbacks multihop_call = {recv, forward};
 static struct multihop_conn multihop;
 /*---------------------------------------------------------------------------*/
