@@ -66,7 +66,8 @@ received_announcement(struct announcement *a,
   for(e = list_head(neighbor_table); e != NULL; e = e->next) {
     if(linkaddr_cmp(from, &e->addr)) {
       /* Our neighbor was found, so we update the timeout. */
-      ctimer_set(&e->ctimer, NEIGHBOR_TIMEOUT, remove_neighbor, e);   
+      ctimer_set(&e->ctimer, NEIGHBOR_TIMEOUT, remove_neighbor, e); 
+      printf("sink_hops: %d, e->num_hops: %d, value: %d\n", sink_hops, e->num_hops, value);
       if (sink_hops < (value - 1)) {
         sink_hops = value + 1;
         e->num_hops = value;
