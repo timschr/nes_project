@@ -89,7 +89,7 @@ received_announcement(struct announcement *a,
   e = memb_alloc(&neighbor_mem);
   if(e != NULL) {
     if (value != NOT_INIT) {
-        if (sink_hops + 1 > value || sink_hops == NOT_INIT) {if (sink_hops + 1 > value || sink_hops == NOT_INIT) {
+        if (sink_hops + 1 > value || sink_hops == NOT_INIT) {
           sink_hops = value + 1;
           e->num_hops = value;
           announcement_set_value(&example_announcement, &sink_hops);
