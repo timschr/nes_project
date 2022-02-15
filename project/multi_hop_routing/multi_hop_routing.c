@@ -9,6 +9,7 @@
 #include <stdio.h>
 
 #define CHANNEL 135
+#define NOT_INIT 255
 
 
 struct example_neighbor {
@@ -68,15 +69,15 @@ received_announcement(struct announcement *a,
       /* Our neighbor was found, so we update the timeout. */
       ctimer_set(&e->ctimer, NEIGHBOR_TIMEOUT, remove_neighbor, e); 
       printf("sink_hops: %d, e->num_hops: %d, value: %d\n", sink_hops, e->num_hops, value);
-      if (value != -1) {
-        if ((sink_hops > (value - 1)) || sink_hops == -1) {
+      if (value != NOT_INIT) {
+        if (sink_hops > (value - 1)) {
           sink_hops = value + 1;
           e->num_hops = value;
           announcement_set_value(&example_announcement, &sink_hops);
           printf("Updated #Hops to sinks %d\n", sink_hops);
         }
       } else {
-          printf("Neighbor not initialized\n");
+          printf("Neighbor doesn't know where sink is\n");
       }
       return;
     }
@@ -87,15 +88,15 @@ received_announcement(struct announcement *a,
      necessary fields, and add it to the list. */
   e = memb_alloc(&neighbor_mem);
   if(e != NULL) {
-    if (value != -1) {
-        if ((sink_hops > (value - 1)) || sink_hops == -1) {
+    if (value != NOT_INIT) {
+        if (sink_hops > (value - 1)) {
           sink_hops = value + 1;
           e->num_hops = value;
           announcement_set_value(&example_announcement, &sink_hops);
           printf("Updated #Hops to sinks %d\n", sink_hops);
         }
     } else {
-        printf("Neighbor not initialized\n");
+        printf("Neighbor not known yet, but doesn't know where sink is\n");
     }
     linkaddr_copy(&e->addr, from);
     list_add(neighbor_table, e);
@@ -177,7 +178,7 @@ PROCESS_THREAD(example_multihop_process, ev, data)
     announcement_set_value(&example_announcement, sink_hops); // 1 - Sink
     printf("Sink sets announcment value to 0\n");
   } else {
-    sink_hops = -1;
+    sink_hops = NOT_INIT;
     announcement_set_value(&example_announcement, sink_hops); // 0 - not initialize
   }
   
