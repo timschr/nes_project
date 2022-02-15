@@ -14,7 +14,7 @@
 struct example_neighbor {
   struct example_neighbor *next;
   linkaddr_t addr;
-  uint8_t num_hops = -1;
+  uint8_t num_hops;
   struct ctimer ctimer;
 };
 
@@ -87,6 +87,16 @@ received_announcement(struct announcement *a,
      necessary fields, and add it to the list. */
   e = memb_alloc(&neighbor_mem);
   if(e != NULL) {
+    if (value != -1) {
+        if (sink_hops > (value - 1)) {
+          sink_hops = value + 1;
+          e->num_hops = value;
+          announcement_set_value(&example_announcement, &sink_hops);
+          printf("Updated #Hops to sinks %d\n", sink_hops);
+        }
+    } else {
+        printf("Neighbor not initialized\n");
+    }
     linkaddr_copy(&e->addr, from);
     list_add(neighbor_table, e);
     ctimer_set(&e->ctimer, NEIGHBOR_TIMEOUT, remove_neighbor, e);
