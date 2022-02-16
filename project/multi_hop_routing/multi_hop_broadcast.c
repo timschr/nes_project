@@ -176,6 +176,7 @@ PROCESS_THREAD(beaconing, ev, data)
   packetbuf_copyfrom(&sink_hops, sizeof(sink_hops));
   broadcast_send(&broadcast);
   etimer_reset(&beacon_timer);
+  PROCESS_END();
 }
 
 /*---------------------------------------------------------------------------*/
