@@ -193,7 +193,7 @@ PROCESS_THREAD(example_multihop_process, ev, data)
   list_init(neighbor_table);
 
   /* Open a multihop connection on Rime channel CHANNEL. */
-  multihop_open(&multihop, CHANNEL, &multihop_call);
+  //multihop_open(&multihop, CHANNEL, &multihop_call);
   
   /* 
    * Set up a broadcast connection
