@@ -26,11 +26,14 @@ static struct broadcast_conn broadcast;
 
 #define NEIGHBOR_TIMEOUT 60 * CLOCK_SECOND
 #define MAX_NEIGHBORS 16
+#define BEACON_INTERVAL 20 * CLOCK_SECOND
+
 LIST(neighbor_table);
 MEMB(neighbor_mem, struct example_neighbor, MAX_NEIGHBORS);
 /*---------------------------------------------------------------------------*/
 PROCESS(example_multihop_process, "multihop example");
-AUTOSTART_PROCESSES(&example_multihop_process);
+PROCESS(beaconing, "send periodic hello msg");
+AUTOSTART_PROCESSES(&example_multihop_process, &beaconing);
 /*---------------------------------------------------------------------------*/
 /*
  * This function is called by the ctimer present in each neighbor
@@ -161,6 +164,20 @@ forward(struct multihop_conn *c,
 static const struct multihop_callbacks multihop_call = {recv, forward};
 static struct multihop_conn multihop;
 static const struct broadcast_callbacks broadcast_cb = {received_broadcast};
+/*---------------------------------------------------------------------------*/
+PROCESS_THREAD(beaconing, ev, data)
+{
+  static struct etimer beacon_timer;
+ 
+  PROCESS_BEGIN();
+  etimer_set(&beacon_timer, BEACON_INTERVAL);
+  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&beacon_timer));
+  
+  packetbuf_copyfrom(&sink_hops, sizeof(sink_hops));
+  broadcast_send(&broadcast);
+  etimer_reset(&beacon_timer);
+}
+
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(example_multihop_process, ev, data)
 {
