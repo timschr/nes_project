@@ -56,6 +56,8 @@ remove_neighbor(void *n)
           sink_hops = hops + 1;
         }
     }
+    packetbuf_copyfrom(&sink_hops, sizeof(sink_hops));
+    broadcast_send(&broadcast);
     printf("Failed neighbor was shortest path. Update to %d hops to sink.\n", sink_hops);
   }
 }
@@ -82,10 +84,12 @@ received_broadcast(struct broadcast_conn *c, const linkaddr_t *from)
       /* Our neighbor was found, so we update the timeout. */
       ctimer_set(&e->ctimer, NEIGHBOR_TIMEOUT, remove_neighbor, e); 
       if (rec_number_of_hops != NOT_INIT) {
+        if (e->num_hops < rec_number_of_hops){
+          printf("Shortest route is not available.\n");
+        }
+        e->num_hops = rec_number_of_hops; //Needs to be done here in case shortest route is not available anymore
         if (sink_hops > rec_number_of_hops || sink_hops == NOT_INIT) {
           sink_hops = rec_number_of_hops + 1;
-          e->num_hops = rec_number_of_hops;
-          
           packetbuf_copyfrom(&sink_hops, sizeof(sink_hops));
           broadcast_send(&broadcast);
 
