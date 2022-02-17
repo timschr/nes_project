@@ -72,7 +72,7 @@ static void
 received_broadcast(struct broadcast_conn *c, const linkaddr_t *from)
 {
   struct example_neighbor *e;
-
+  printf("Received broadcast from %d\n", from->u8[0]);
   uint8_t rec_number_of_hops = *(uint8_t *)packetbuf_dataptr();
 
   /* We received an announcement from a neighbor so we need to update
@@ -90,7 +90,7 @@ received_broadcast(struct broadcast_conn *c, const linkaddr_t *from)
           broadcast_send(&broadcast);
 
           printf("Updated #Hops to sink %d\n", sink_hops);
-          printf("sink_hops: %d, e->num_hops: %d, rec_number_of_hops: %d\n", sink_hops, e->num_hops, rec_number_of_hops);
+          //printf("sink_hops: %d, e->num_hops: %d, rec_number_of_hops: %d\n", sink_hops, e->num_hops, rec_number_of_hops);
         }
       } else {
           printf("Neighbor %d doesn't know where sink is\n", from->u8[0]);
