@@ -74,7 +74,7 @@ static void
 received_broadcast(struct broadcast_conn *c, const linkaddr_t *from)
 {
   struct example_neighbor *e;
-  printf("Received broadcast from %d\n", from->u8[0]);
+  //printf("Received broadcast from %d\n", from->u8[0]);
   uint8_t rec_number_of_hops = *(uint8_t *)packetbuf_dataptr();
 
   /* We received an announcement from a neighbor so we need to update
