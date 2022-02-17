@@ -42,10 +42,22 @@ AUTOSTART_PROCESSES(&example_multihop_process, &broadcast_process);
 static void
 remove_neighbor(void *n)
 {
+  print("Node %d failed, delete as neighbor\n", e->addr.u8[0]);
   struct example_neighbor *e = n;
-
   list_remove(neighbor_table, e);
   memb_free(&neighbor_mem, e);
+  /* Neighbor was the or one of the shortest path */
+  if (e->num_hops == sink_hops){
+    sink_hops = NOT_INIT;
+    uint8_t hops;
+    for(e = list_head(neighbor_table); e != NULL; e = e->next) {
+        hops = e->num_hops;
+        if (sink_hops > hops || sink_hops == NOT_INIT) {
+          sink_hops = hops + 1;
+        }
+    }
+    print("Failed neighbor was shortest path. Update to %d hops to sink.\n", sink_hops);
+  }
 }
 
 /*---------------------------------------------------------------------------*/
