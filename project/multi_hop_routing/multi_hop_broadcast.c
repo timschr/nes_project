@@ -272,7 +272,8 @@ PROCESS_THREAD(broadcast_process, ev, data)
 
 
   while(1) {
-    etimer_set(&et, NEIGHBOR_TIMEOUT / 5);
+    etimer_set(&et, NEIGHBOR_TIMEOUT / 3 + random_rand() % (NEIGHBOR_TIMEOUT / 3));
+    //etimer_set(&et, NEIGHBOR_TIMEOUT / 5);
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
     packetbuf_copyfrom(&sink_hops, sizeof(sink_hops));
