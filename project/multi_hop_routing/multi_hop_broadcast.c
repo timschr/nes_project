@@ -24,7 +24,7 @@ static uint8_t sink_hops;
 
 static struct broadcast_conn broadcast;
 
-#define NEIGHBOR_TIMEOUT 30 * CLOCK_SECOND
+#define NEIGHBOR_TIMEOUT 20 * CLOCK_SECOND
 #define MAX_NEIGHBORS 16
 LIST(neighbor_table);
 MEMB(neighbor_mem, struct example_neighbor, MAX_NEIGHBORS);
