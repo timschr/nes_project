@@ -42,8 +42,8 @@ AUTOSTART_PROCESSES(&example_multihop_process, &broadcast_process);
 static void
 remove_neighbor(void *n)
 {
-  print("Node %d failed, delete as neighbor\n", e->addr.u8[0]);
   struct example_neighbor *e = n;
+  printf("Node %d failed, delete as neighbor\n", e->addr.u8[0]);
   list_remove(neighbor_table, e);
   memb_free(&neighbor_mem, e);
   /* Neighbor was the or one of the shortest path */
@@ -56,7 +56,7 @@ remove_neighbor(void *n)
           sink_hops = hops + 1;
         }
     }
-    print("Failed neighbor was shortest path. Update to %d hops to sink.\n", sink_hops);
+    printf("Failed neighbor was shortest path. Update to %d hops to sink.\n", sink_hops);
   }
 }
 
