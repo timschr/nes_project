@@ -47,7 +47,7 @@ remove_neighbor(void *n)
   list_remove(neighbor_table, e);
   memb_free(&neighbor_mem, e);
   /* Neighbor was the or one of the shortest path */
-  if (e->num_hops == sink_hops){
+  if (e->num_hops == sink_hops + 1){
     sink_hops = NOT_INIT;
     uint8_t hops;
     for(e = list_head(neighbor_table); e != NULL; e = e->next) {
