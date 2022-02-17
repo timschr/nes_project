@@ -24,7 +24,7 @@ static uint8_t sink_hops;
 
 static struct broadcast_conn broadcast;
 
-#define NEIGHBOR_TIMEOUT 60 * CLOCK_SECOND
+#define NEIGHBOR_TIMEOUT 30 * CLOCK_SECOND
 #define MAX_NEIGHBORS 16
 LIST(neighbor_table);
 MEMB(neighbor_mem, struct example_neighbor, MAX_NEIGHBORS);
@@ -182,23 +182,23 @@ PROCESS_THREAD(example_multihop_process, ev, data)
   static struct etimer et;
     
   PROCESS_BEGIN();
-
+  
   /* Initialize the memory for the neighbor table entries. */
-  memb_init(&neighbor_mem);
+  //memb_init(&neighbor_mem);
 
   /* Initialize the list used for the neighbor table. */
-  list_init(neighbor_table);
-
+  //list_init(neighbor_table);
+  
   /* Open a multihop connection on Rime channel CHANNEL. */
   multihop_open(&multihop, CHANNEL, &multihop_call);
-
+  /*
   if ((linkaddr_node_addr.u8[0] == 1) && (linkaddr_node_addr.u8[1] == 0)){
     sink_hops = 0;
   }
   else {
     sink_hops = NOT_INIT;
   }
-  
+  */
   /* Activate the button sensor. We use the button to drive traffic -
      when the button is pressed, a packet is sent. */
   SENSORS_ACTIVATE(button_sensor);
@@ -236,7 +236,7 @@ PROCESS_THREAD(broadcast_process, ev, data)
   static struct etimer et;
 
   PROCESS_BEGIN();
-
+  
   /* Initialize the memory for the neighbor table entries. */
   memb_init(&neighbor_mem);
 
