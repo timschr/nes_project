@@ -26,14 +26,13 @@ static struct broadcast_conn broadcast;
 
 #define NEIGHBOR_TIMEOUT 60 * CLOCK_SECOND
 #define MAX_NEIGHBORS 16
-#define BEACON_INTERVAL 20 * CLOCK_SECOND
-
 LIST(neighbor_table);
 MEMB(neighbor_mem, struct example_neighbor, MAX_NEIGHBORS);
 /*---------------------------------------------------------------------------*/
 PROCESS(example_multihop_process, "multihop example");
-PROCESS(beaconing, "send periodic hello msg");
-AUTOSTART_PROCESSES(&example_multihop_process, &beaconing);
+PROCESS(broadcast_process, "broadcast");
+
+AUTOSTART_PROCESSES(&example_multihop_process, &broadcast_process);
 /*---------------------------------------------------------------------------*/
 /*
  * This function is called by the ctimer present in each neighbor
@@ -61,7 +60,7 @@ static void
 received_broadcast(struct broadcast_conn *c, const linkaddr_t *from)
 {
   struct example_neighbor *e;
-  printf("Received broadcast\n");
+
   uint8_t rec_number_of_hops = *(uint8_t *)packetbuf_dataptr();
 
   /* We received an announcement from a neighbor so we need to update
@@ -123,7 +122,7 @@ recv(struct multihop_conn *c, const linkaddr_t *sender,
      uint8_t hops)
 {
   // TODO: Print the sender
-  printf("multihop message received '%d'\n", *(unsigned long*)packetbuf_dataptr());
+  printf("multihop message received '%s'\n", (char*)packetbuf_dataptr());
 }
 /*
  * This function is called to forward a packet. The function picks a
@@ -163,26 +162,12 @@ forward(struct multihop_conn *c,
 
 static const struct multihop_callbacks multihop_call = {recv, forward};
 static struct multihop_conn multihop;
-static const struct broadcast_callbacks broadcast_cb = {received_broadcast};
-/*---------------------------------------------------------------------------*/
-PROCESS_THREAD(beaconing, ev, data)
-{
-  static struct etimer beacon_timer;
- 
-  PROCESS_BEGIN();
-  etimer_set(&beacon_timer, BEACON_INTERVAL);
-  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&beacon_timer));
-  
-  packetbuf_copyfrom(&sink_hops, sizeof(sink_hops));
-  broadcast_send(&broadcast);
-  etimer_reset(&beacon_timer);
-  PROCESS_END();
-}
-
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(example_multihop_process, ev, data)
 {
   PROCESS_EXITHANDLER(multihop_close(&multihop);)
+
+  static struct etimer et;
     
   PROCESS_BEGIN();
 
@@ -193,21 +178,10 @@ PROCESS_THREAD(example_multihop_process, ev, data)
   list_init(neighbor_table);
 
   /* Open a multihop connection on Rime channel CHANNEL. */
-  //multihop_open(&multihop, CHANNEL, &multihop_call);
-  
-  /* 
-   * Set up a broadcast connection
-   * Arguments: channel (129) and callbacks function
-   */
-  broadcast_open(&broadcast, CHANNEL, &broadcast_cb);
+  multihop_open(&multihop, CHANNEL, &multihop_call);
 
   if ((linkaddr_node_addr.u8[0] == 1) && (linkaddr_node_addr.u8[1] == 0)){
     sink_hops = 0;
-    /* Copy data to the packet buffer */
-    packetbuf_copyfrom(&sink_hops, sizeof(sink_hops));
-
-    /* Send broadcast packet */
-    broadcast_send(&broadcast);
   }
   else {
     sink_hops = NOT_INIT;
@@ -242,4 +216,52 @@ PROCESS_THREAD(example_multihop_process, ev, data)
 
   PROCESS_END();
 }
-/*---------------------------------------------------------------------------*/
+
+static const struct broadcast_callbacks broadcast_cb = {received_broadcast};
+
+PROCESS_THREAD(broadcast_process, ev, data)
+{
+  static struct etimer et;
+
+  PROCESS_BEGIN();
+
+  /* Initialize the memory for the neighbor table entries. */
+  memb_init(&neighbor_mem);
+
+  /* Initialize the list used for the neighbor table. */
+  list_init(neighbor_table);
+  
+  /* 
+   * Set up a broadcast connection
+   * Arguments: channel (129) and callbacks function
+   */
+  broadcast_open(&broadcast, 123, &broadcast_cb);
+
+  if ((linkaddr_node_addr.u8[0] == 1) && (linkaddr_node_addr.u8[1] == 0)){
+    sink_hops = 0;
+    /* Copy data to the packet buffer */
+    packetbuf_copyfrom(&sink_hops, sizeof(sink_hops));
+
+    unsigned long ticks = CLOCK_SECOND * 5;
+    
+    etimer_set(&et, ticks);
+    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
+    /* Send broadcast packet */
+    broadcast_send(&broadcast);
+  }
+  else {
+    sink_hops = NOT_INIT;
+  }
+
+
+  while(1) {
+    etimer_set(&et, NEIGHBOR_TIMEOUT / 5);
+    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
+    packetbuf_copyfrom(&sink_hops, sizeof(sink_hops));
+    broadcast_send(&broadcast);
+  }
+
+  PROCESS_END();
+}
